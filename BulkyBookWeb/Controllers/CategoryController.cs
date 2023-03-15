@@ -49,7 +49,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
             var categoryFromDb = _db.Categories.Find(id);
-           // var categoryFromDbFirst = _db.Categories.FirstOrDefault(u => u.id == id);
+            var categoryFromDbFirst = _db.Categories.FirstOrDefault(u => u.id == id);
            // var categoryFromDbSingle = _db.Categories.SingleOrDefault(u=>u.id == id);
            if(categoryFromDb == null) 
             {
