@@ -91,8 +91,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             return View(categoryFromDbFirst);
         }
-
-        [HttpPost]
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? id)
         {
@@ -104,7 +103,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             _unitOfWork.categoryRepository.Remove(obj);
             _unitOfWork.Save();
-
+			TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
 
         }
