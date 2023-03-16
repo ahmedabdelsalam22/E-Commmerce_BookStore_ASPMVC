@@ -3,15 +3,16 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBook.Controllers
+namespace BulkyBookWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
         public CategoryController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
@@ -20,9 +21,9 @@ namespace BulkyBook.Controllers
             return View(objCategoryList);
         }
         //Get
-        public IActionResult Create() 
+        public IActionResult Create()
         {
-          return View();
+            return View();
         }
 
 
@@ -30,11 +31,11 @@ namespace BulkyBook.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString()) 
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
-                ModelState.AddModelError("CustomError","The Display Order can't excatly match the Name");
+                ModelState.AddModelError("CustomError", "The Display Order can't excatly match the Name");
             }
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _unitOfWork.categoryRepository.Add(obj);
                 _unitOfWork.Save();
@@ -43,16 +44,16 @@ namespace BulkyBook.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id) 
+        public IActionResult Edit(int? id)
         {
-            if (id == null || id == 0) 
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
             // var categoryFromDb = _db.Categories.Find(id);
             var categoryFromDbFirst = _unitOfWork.categoryRepository.GetFirstOrDefault(u => u.id == id);
-           // var categoryFromDbSingle = _db.Categories.SingleOrDefault(u=>u.id == id);
-           if(categoryFromDbFirst == null) 
+            // var categoryFromDbSingle = _db.Categories.SingleOrDefault(u=>u.id == id);
+            if (categoryFromDbFirst == null)
             {
                 return NotFound();
             }
@@ -82,7 +83,7 @@ namespace BulkyBook.Controllers
                 return NotFound();
             }
             //   var categoryFromDb = _db.Categories.Find(id);
-             var categoryFromDbFirst = _unitOfWork.categoryRepository.GetFirstOrDefault(u => u.id == id);
+            var categoryFromDbFirst = _unitOfWork.categoryRepository.GetFirstOrDefault(u => u.id == id);
             // var categoryFromDbSingle = _db.Categories.SingleOrDefault(u=>u.id == id);
             if (categoryFromDbFirst == null)
             {
@@ -105,7 +106,7 @@ namespace BulkyBook.Controllers
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
-         
+
         }
 
     }
