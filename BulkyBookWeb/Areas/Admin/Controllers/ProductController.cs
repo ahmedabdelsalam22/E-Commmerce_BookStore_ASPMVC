@@ -20,26 +20,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             IEnumerable<Product> objProductList = _unitOfWork.productRepository.GetAll();
             return View(objProductList);
         }
-        //Get
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(CoverType obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.coverTypeRepository.Add(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "CoverType created successfully";
-                return RedirectToAction("Index");
-            }
-            return View(obj);
-        }
 
         public IActionResult Edit(int? id)
         {
@@ -47,14 +27,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var coverTypeFromDbFirst = _unitOfWork.coverTypeRepository.GetFirstOrDefault(u => u.Id == id);
             
-            if (coverTypeFromDbFirst == null)
-            {
-                return NotFound();
-            }
-            return View(coverTypeFromDbFirst);
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(CoverType obj)
