@@ -1,6 +1,7 @@
 ﻿using BulkyBook.DataAccess;
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -10,59 +11,93 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Product> objProductList = _unitOfWork.productRepository.GetAll();
-            return View(objProductList);
+            return View();
         }
         
         //Get
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
+			ProductVM productVM = new()
+			{
+				Product = new(),
+				CategoryList = _unitOfWork.categoryRepository.GetAll().Select(i => new SelectListItem
+				{
+					Text = i.Name,
+					Value = i.id.ToString()
+				}),
+				CoverTypeList = _unitOfWork.coverTypeRepository.GetAll().Select(i => new SelectListItem
+				{
+					Text = i.Name,
+					Value = i.Id.ToString()
+				}),
+			};
 
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.categoryRepository.GetAll().Select(
-                u=> new SelectListItem 
-                {
-                  Text = u.Name,
-                  Value = u.id.ToString(),
-                });
-            IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.coverTypeRepository.GetAll().Select(
-               u => new SelectListItem
-               {
-                   Text = u.Name,
-                   Value = u.Id.ToString(),
-               });
-
-            if (id == null || id == 0)
+			if (id == null || id == 0)
             {
                 // create product
-                ViewBag.CategoryList = CategoryList;
-                ViewData["CoverTypeList"] = CoverTypeList;
-                return View(product);
+                //ViewBag.CategoryList = CategoryList;
+                //ViewData["CoverTypeList"] = CoverTypeList;
+                return View(productVM);
             }
             else
             {
-              // update product       
-            }
+				// update product
+				productVM.Product = _unitOfWork.productRepository.GetFirstOrDefault(u => u.Id == id);
+				return View(productVM);
+			}
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product obj)
+        public IActionResult Upsert(ProductVM obj,IFormFile? file)
         {
            
             if (ModelState.IsValid)
             {
-                _unitOfWork.productRepository.Update(obj);
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
+
+                    if (obj.Product.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, obj.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStreams);
+                    }
+                    obj.Product.ImageUrl = @"\images\products\" + fileName + extension;
+
+                }
+                //if (obj.Product.Id == 0)
+                //{
+                //    _unitOfWork.productRepository.Add(obj.Product);
+                //}
+                //else
+                //{
+                //    _unitOfWork.productRepository.Update(obj.Product);
+                //}
+                _unitOfWork.productRepository.Add(obj.Product);
                 _unitOfWork.Save();
-                TempData["success"] = "CoverType Edit successfully";
+                TempData["success"] = "Product Created successfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -100,6 +135,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             TempData["success"] = "CoverType Edit successfully";
             return RedirectToAction("Index");
 
+        }
+
+        // api calls 
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var product = _unitOfWork.productRepository.GetAll();
+            return Json(new { data = product });
         }
 
     }
