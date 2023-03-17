@@ -142,7 +142,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var product = _unitOfWork.productRepository.GetAll();
+            var product = _unitOfWork.productRepository.GetAll(includeProperties:"Category,CoverType");
             return Json(new { data = product });
         }
 
