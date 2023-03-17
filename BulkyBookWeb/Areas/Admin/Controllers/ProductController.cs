@@ -87,14 +87,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     obj.Product.ImageUrl = @"\images\products\" + fileName + extension;
 
                 }
-                //if (obj.Product.Id == 0)
-                //{
-                //    _unitOfWork.productRepository.Add(obj.Product);
-                //}
-                //else
-                //{
-                //    _unitOfWork.productRepository.Update(obj.Product);
-                //}
+
+                if (obj.Product.Id == 0)
+                {
+                    _unitOfWork.productRepository.Add(obj.Product);
+                }
+                else
+                {
+                    _unitOfWork.productRepository.Update(obj.Product);
+                }
                 _unitOfWork.productRepository.Add(obj.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product Created successfully";
