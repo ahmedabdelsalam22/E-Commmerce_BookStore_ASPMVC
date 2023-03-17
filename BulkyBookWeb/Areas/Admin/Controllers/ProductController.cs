@@ -51,8 +51,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
               // update product       
             }
-
-            return View(product);
         }
 
         [HttpPost]
