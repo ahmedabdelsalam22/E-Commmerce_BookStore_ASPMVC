@@ -2,6 +2,7 @@
 using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -20,22 +21,48 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             IEnumerable<Product> objProductList = _unitOfWork.productRepository.GetAll();
             return View(objProductList);
         }
-
-        public IActionResult Edit(int? id)
+        
+        //Get
+        public IActionResult Upsert(int? id)
         {
+            Product product = new();
+
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.categoryRepository.GetAll().Select(
+                u=> new SelectListItem 
+                {
+                  Text = u.Name,
+                  Value = u.id.ToString(),
+                });
+            IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.coverTypeRepository.GetAll().Select(
+               u => new SelectListItem
+               {
+                   Text = u.Name,
+                   Value = u.Id.ToString(),
+               });
+
             if (id == null || id == 0)
             {
-                return NotFound();
+                // create product
+                ViewBag.CategoryList = CategoryList;
+                ViewData["CoverTypeList"] = CoverTypeList;
+                return View(product);
             }
-            
+            else
+            {
+              // update product       
+            }
+
+            return View(product);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CoverType obj)
+        public IActionResult Upsert(Product obj)
         {
            
             if (ModelState.IsValid)
             {
-                _unitOfWork.coverTypeRepository.Update(obj);
+                _unitOfWork.productRepository.Update(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "CoverType Edit successfully";
                 return RedirectToAction("Index");
