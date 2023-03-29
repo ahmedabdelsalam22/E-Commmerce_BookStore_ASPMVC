@@ -86,7 +86,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(coverTypeFromDbFirst);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? id)
         {
