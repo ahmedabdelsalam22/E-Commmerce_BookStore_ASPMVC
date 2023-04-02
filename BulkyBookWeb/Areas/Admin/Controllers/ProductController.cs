@@ -103,36 +103,35 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(obj);
         }
 
-        public IActionResult Delete(int? id)
+
+
+        // api calls 
+
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            //   var categoryFromDb = _db.Categories.Find(id);
-            var coverTypeFromDbFirst = _unitOfWork.coverTypeRepository.GetFirstOrDefault(u => u.Id == id);
-            // var categoryFromDbSingle = _db.Categories.SingleOrDefault(u=>u.id == id);
-            if (coverTypeFromDbFirst == null)
-            {
-                return NotFound();
-            }
-            return View(coverTypeFromDbFirst);
+            var product = _unitOfWork.productRepository.GetAll(includeProperties:"Category,CoverType");
+            return Json(new { data = product });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
         {
-            var obj = _unitOfWork.coverTypeRepository.GetFirstOrDefault(u => u.Id == id);
+            var obj = _unitOfWork.productRepository.GetFirstOrDefault(u => u.Id == id);
 
             if (obj == null)
             {
-                return NotFound();
+                return Json(new { success = false , message = "Error while deleting"});
             }
-
-            _unitOfWork.coverTypeRepository.Remove(obj);
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            _unitOfWork.productRepository.Remove(obj);
             _unitOfWork.Save();
-            return RedirectToAction("Index");
+            return Json(new { success = true, message = "Deleted successfully" });
 
         }
 
