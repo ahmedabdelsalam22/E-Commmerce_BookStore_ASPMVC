@@ -96,7 +96,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 {
                     _unitOfWork.productRepository.Update(obj.Product);
                 }
-                _unitOfWork.productRepository.Add(obj.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product Created successfully";
                 return RedirectToAction("Index");
