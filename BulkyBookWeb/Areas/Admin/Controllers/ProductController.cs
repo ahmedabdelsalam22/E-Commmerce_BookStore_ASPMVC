@@ -132,18 +132,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             _unitOfWork.coverTypeRepository.Remove(obj);
             _unitOfWork.Save();
-            TempData["success"] = "CoverType Edit successfully";
             return RedirectToAction("Index");
 
-        }
-
-        // api calls 
-
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var product = _unitOfWork.productRepository.GetAll(includeProperties:"Category,CoverType");
-            return Json(new { data = product });
         }
 
     }
