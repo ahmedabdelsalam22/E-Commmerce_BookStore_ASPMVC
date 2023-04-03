@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook.DataAccess
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
