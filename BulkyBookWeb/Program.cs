@@ -43,10 +43,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 
-//app.UseEndpoints(endpoints =>
-//{
-    
-//});
 
 app.MapControllerRoute(
     name: "default",
