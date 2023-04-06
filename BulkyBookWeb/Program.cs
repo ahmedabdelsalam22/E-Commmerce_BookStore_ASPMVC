@@ -16,7 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString: connectionString)
     );
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
