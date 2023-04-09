@@ -40,6 +40,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 		}
 
 
+
 		private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
 		{
 			if (quantity <= 50)
@@ -55,5 +56,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 				return price100;
 			}
 		}
+
+		public IActionResult Plus(int cartId)
+		{
+			var cart = _unitOfWork.ShoppingCartRepository.GetFirstOrDefault(u => u.Id == cartId);
+			_unitOfWork.ShoppingCartRepository.IncrementCount(cart, 1);
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+		}
+
 	}
 }
