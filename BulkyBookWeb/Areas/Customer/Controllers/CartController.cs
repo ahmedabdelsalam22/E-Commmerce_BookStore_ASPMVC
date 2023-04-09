@@ -7,29 +7,29 @@ using System.Security.Claims;
 
 namespace BulkyBookWeb.Areas.Customer.Controllers
 {
-    [Area("Customer")]
-    [Authorize]
-    public class CartController : Controller
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        public ShoppingCartVM ShoppingCartVM { get; set; }
-
+	[Area("Customer")]
+	[Authorize]
+	public class CartController : Controller
+	{
+		private readonly IUnitOfWork _unitOfWork;
+		public ShoppingCartVM shoppingCartVM { get; set; }
+		public int OrderTotal { get; set; }
 		public CartController(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 		}
 
 		public IActionResult Index()
-        {
+		{
 			var claimsIdentity = (ClaimsIdentity)User.Identity;
 			var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-			ShoppingCartVM = new ShoppingCartVM() 
+			shoppingCartVM = new ShoppingCartVM()
 			{
-			  ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u=>u.ApplicationUserId == claim.Value
-			  ,includeProperties:"Product")
+				ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == claim.Value
+			  , includeProperties: "product")
 			};
-			return View(ShoppingCartVM);
-        }
-    }
+			return View(shoppingCartVM);
+		}
+	}
 }

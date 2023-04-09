@@ -30,8 +30,8 @@ namespace BulkyBook.DataAccess.Repository
         {
             IQueryable<T> query = dbSet;
 
-            if (filter != null) 
-            {
+			if (filter != null)
+			{
 				query = query.Where(filter);
 			}
 			if (includeProperties != null)
