@@ -1,6 +1,7 @@
 ﻿using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Models.ViewModels;
+using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -64,6 +65,34 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			_unitOfWork.Save();
 			return RedirectToAction(nameof(Index));
 		}
+
+		//public IActionResult Minus(int cartId)
+		//{
+		//	var cart = _unitOfWork.ShoppingCartRepository.GetFirstOrDefault(u => u.Id == cartId);
+		//	if (cart.Count <= 1)
+		//	{
+		//		_unitOfWork.ShoppingCartRepository.Remove(cart);
+		//		var count = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count - 1;
+		//		HttpContext.Session.SetInt32(SD.SessionCart, count);
+		//	}
+		//	else
+		//	{
+		//		_unitOfWork.ShoppingCartRepository.DecrementCount(cart, 1);
+		//	}
+		//	_unitOfWork.Save();
+		//	return RedirectToAction(nameof(Index));
+		//}
+
+
+		public IActionResult Remove(int cartId)
+		{
+			var cart = _unitOfWork.ShoppingCartRepository.GetFirstOrDefault(u => u.Id == cartId);
+			_unitOfWork.ShoppingCartRepository.Remove(cart);
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+		}
+
+
 
 	}
 }
