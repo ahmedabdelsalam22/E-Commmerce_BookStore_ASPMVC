@@ -29,7 +29,31 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 				ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == claim.Value
 			  , includeProperties: "product")
 			};
+
+			foreach (var cart in shoppingCartVM.ListCart)
+			{
+				cart.Price = GetPriceBasedOnQuantity(cart.Count, cart.product.Price,
+					cart.product.Price50, cart.product.Price100);
+				shoppingCartVM.CartTotal += (cart.Price * cart.Count);
+			}
 			return View(shoppingCartVM);
+		}
+
+
+		private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
+		{
+			if (quantity <= 50)
+			{
+				return price;
+			}
+			else
+			{
+				if (quantity <= 100)
+				{
+					return price50;
+				}
+				return price100;
+			}
 		}
 	}
 }
