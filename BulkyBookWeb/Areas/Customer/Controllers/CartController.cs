@@ -66,22 +66,20 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		//public IActionResult Minus(int cartId)
-		//{
-		//	var cart = _unitOfWork.ShoppingCartRepository.GetFirstOrDefault(u => u.Id == cartId);
-		//	if (cart.Count <= 1)
-		//	{
-		//		_unitOfWork.ShoppingCartRepository.Remove(cart);
-		//		var count = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).ToList().Count - 1;
-		//		HttpContext.Session.SetInt32(SD.SessionCart, count);
-		//	}
-		//	else
-		//	{
-		//		_unitOfWork.ShoppingCartRepository.DecrementCount(cart, 1);
-		//	}
-		//	_unitOfWork.Save();
-		//	return RedirectToAction(nameof(Index));
-		//}
+		public IActionResult Minus(int cartId)
+		{
+			var cart = _unitOfWork.ShoppingCartRepository.GetFirstOrDefault(u => u.Id == cartId);
+			if (cart.Count <= 1)
+			{
+				_unitOfWork.ShoppingCartRepository.Remove(cart);
+			}
+			else
+			{
+				_unitOfWork.ShoppingCartRepository.DecrementCount(cart, 1);
+			}
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+		}
 
 
 		public IActionResult Remove(int cartId)
