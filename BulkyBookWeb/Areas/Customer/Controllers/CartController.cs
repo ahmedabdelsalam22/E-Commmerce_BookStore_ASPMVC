@@ -51,7 +51,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			shoppingCartVM = new ShoppingCartVM()
 			{
 				ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == claim.Value,
-				includeProperties: "Product"),
+				includeProperties: "product"),
 				OrderHeader = new()
 			};
 
