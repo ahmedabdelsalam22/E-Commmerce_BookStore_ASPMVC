@@ -13,6 +13,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 	public class CartController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		[BindProperty]
 		public ShoppingCartVM shoppingCartVM { get; set; }
 		public int OrderTotal { get; set; }
 		public CartController(IUnitOfWork unitOfWork)
