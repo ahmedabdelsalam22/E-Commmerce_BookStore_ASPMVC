@@ -35,7 +35,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			{
 				cart.Price = GetPriceBasedOnQuantity(cart.Count, cart.product.Price,
 					cart.product.Price50, cart.product.Price100);
-				shoppingCartVM.CartTotal += (cart.Price * cart.Count);
+				shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
 			}
 			return View(shoppingCartVM);
 		}
