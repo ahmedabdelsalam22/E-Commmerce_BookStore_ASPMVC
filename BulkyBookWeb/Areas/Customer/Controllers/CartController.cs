@@ -91,16 +91,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			shoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
 			shoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
 
-			shoppingCartVM = new ShoppingCartVM()
-			{
-			
-				OrderHeader = new()
-			};
-
-			shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.applicationUserRepository.GetFirstOrDefault(
-			u => u.Id == claim.Value);
-
-	
 			foreach (var cart in shoppingCartVM.ListCart)
 			{
 				cart.Price = GetPriceBasedOnQuantity(cart.Count, cart.product.Price,
