@@ -23,15 +23,11 @@ namespace BulkyBook.DataAccess.Repository
         }
 
         public ICategoryRepository categoryRepository { get; private set; }
-
         public ICoverTypeRepository coverTypeRepository { get; private set; }
-
         public IProductRepository productRepository { get; private set; }
         public ICompanyRepository companyRepository { get; private set; }
-
         public IShoppingCartRepository ShoppingCartRepository { get; private set; }
 
-        public IApplicationUserRepository applicationUserRepository { get; private set; }
 
         public void Save()
         {
