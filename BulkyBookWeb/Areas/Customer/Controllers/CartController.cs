@@ -74,6 +74,60 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			return View(shoppingCartVM);
 		}
 
+		[HttpPost]
+		[ActionName("Summary")]
+		[ValidateAntiForgeryToken]
+		public IActionResult SummaryPOST()
+		{
+			var claimsIdentity = (ClaimsIdentity)User.Identity;
+			var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+			shoppingCartVM.ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == claim.Value,
+			   includeProperties: "product");
+
+			shoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
+			shoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+			shoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
+			shoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+
+			shoppingCartVM = new ShoppingCartVM()
+			{
+			
+				OrderHeader = new()
+			};
+
+			shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.applicationUserRepository.GetFirstOrDefault(
+			u => u.Id == claim.Value);
+
+	
+			foreach (var cart in shoppingCartVM.ListCart)
+			{
+				cart.Price = GetPriceBasedOnQuantity(cart.Count, cart.product.Price,
+					cart.product.Price50, cart.product.Price100);
+				shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+			}
+
+			_unitOfWork.orderHeaderRepository.Add(shoppingCartVM.OrderHeader);
+			_unitOfWork.Save();
+
+			foreach (var cart in shoppingCartVM.ListCart)
+			{
+				OrderDetail orderDetail = new()
+				{
+					ProductId = cart.ProductId,
+					OrderId = shoppingCartVM.OrderHeader.Id,
+					Price = cart.Price,
+					Count = cart.Count
+				};
+				_unitOfWork.orderDetailRepository.Add(orderDetail);
+				_unitOfWork.Save();
+			}
+			_unitOfWork.ShoppingCartRepository.RemoveRange(shoppingCartVM.ListCart);
+			_unitOfWork.Save();
+
+			return RedirectToAction("Index","Home");
+		}
+
 
 		private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
 		{
