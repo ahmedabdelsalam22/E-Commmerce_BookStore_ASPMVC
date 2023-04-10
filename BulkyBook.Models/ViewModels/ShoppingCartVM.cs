@@ -9,6 +9,8 @@ namespace BulkyBook.Models.ViewModels
 	public class ShoppingCartVM
 	{
 		public IEnumerable<ShoppingCart> ListCart { get; set; }
-		public double CartTotal { get; set; }
+		// i comment CartTotal after add OrderHeader because OrderHeader include CartTotal so i will use it from OrderHeader 
+		// public double CartTotal { get; set; }
+		public OrderHeader OrderHeader { get; set; }
 	}
 }
