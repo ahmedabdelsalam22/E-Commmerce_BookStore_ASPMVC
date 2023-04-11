@@ -119,7 +119,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			return RedirectToAction("Index","Home");
 		}
 
-
 		private double GetPriceBasedOnQuantity(double quantity, double price, double price50, double price100)
 		{
 			if (quantity <= 50)
