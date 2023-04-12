@@ -24,7 +24,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		public IActionResult GetAll()
 		{
 			IEnumerable<OrderHeader> orderHeaders;
-
 			orderHeaders = _unitOfWork.orderHeaderRepository.GetAll(includeProperties: "ApplicationUser");
 			return Json(new { data = orderHeaders });
 		}
