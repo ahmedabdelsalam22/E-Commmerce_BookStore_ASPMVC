@@ -29,15 +29,40 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             OrderVM = new OrderVM()
             {
                 OrderHeader = _unitOfWork.orderHeaderRepository.GetFirstOrDefault(u => u.Id == orderId, includeProperties: "ApplicationUser"),
-                OrderDetail = _unitOfWork.orderDetailRepository.GetAll(u => u.OrderId == orderId, includeProperties: "product"),
+                OrderDetail = _unitOfWork.orderDetailRepository.GetAll(u => u.OrderId == orderId, includeProperties: "Product"),
             };
             return View(OrderVM);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		public IActionResult UpdateOrderDetail()
+		{
+			var orderHEaderFromDb = _unitOfWork.orderHeaderRepository.GetFirstOrDefault(u => u.Id == OrderVM.OrderHeader.Id);
+			orderHEaderFromDb.Name = OrderVM.OrderHeader.Name;
+			orderHEaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
+			orderHEaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
+			orderHEaderFromDb.City = OrderVM.OrderHeader.City;
+			orderHEaderFromDb.State = OrderVM.OrderHeader.State;
+			orderHEaderFromDb.PostalCode = OrderVM.OrderHeader.PostalCode;
+			if (OrderVM.OrderHeader.Carrier != null)
+			{
+				orderHEaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
+			}
+			if (OrderVM.OrderHeader.TrackingNumber != null)
+			{
+				orderHEaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+			}
+			_unitOfWork.orderHeaderRepository.Update(orderHEaderFromDb);
+			_unitOfWork.Save();
+			TempData["Success"] = "Order Details Updated Successfully.";
+			return RedirectToAction("Details", "Order", new { orderId = orderHEaderFromDb.Id });
+		}
 
-        #region API CALLS
 
-        [HttpGet]
+		#region API CALLS
+
+		[HttpGet]
         public IActionResult GetAll(String status)
         {
             IEnumerable<OrderHeader> orderHeaders;
