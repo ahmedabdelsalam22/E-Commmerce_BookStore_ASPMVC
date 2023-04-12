@@ -87,6 +87,23 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 			return new StatusCodeResult(303);
 		}
 
+		public IActionResult PaymentConfirmation(int orderHeaderid)
+		{
+			OrderHeader orderHeader = _unitOfWork.orderHeaderRepository.GetFirstOrDefault(u => u.Id == orderHeaderid);
+			if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+			{
+				var service = new SessionService();
+				Session session = service.Get(orderHeader.SessionId);
+				//check the stripe status
+				if (session.PaymentStatus.ToLower() == "paid")
+				{
+					_unitOfWork.orderHeaderRepository.UpdateStatus(orderHeaderid, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+					_unitOfWork.Save();
+				}
+			}
+			return View(orderHeaderid);
+		}
+
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
