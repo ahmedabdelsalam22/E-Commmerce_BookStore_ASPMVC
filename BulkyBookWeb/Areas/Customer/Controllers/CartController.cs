@@ -86,8 +86,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			shoppingCartVM.ListCart = _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == claim.Value,
 			   includeProperties: "product");
 
-			shoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-			shoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
 			shoppingCartVM.OrderHeader.OrderDate = System.DateTime.Now;
 			shoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
 
