@@ -7,11 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 
 namespace BulkyBook.Utility
 {
     public class EmailSender : IEmailSender
     {
+        public string SendGridSecret { get; set; }
+
+        public EmailSender(IConfiguration _config)
+        {
+            SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
+        }
+
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var emailToSend = new MimeMessage();
