@@ -55,7 +55,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             else {
                 _unitOfWork.ShoppingCartRepository.IncrementCount(cartFromDb, shoppingCart.Count);
             }
-            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
