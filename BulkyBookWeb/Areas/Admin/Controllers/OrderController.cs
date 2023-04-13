@@ -12,7 +12,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    public class OrderController : Controller
+
+	public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
