@@ -4,7 +4,27 @@ ASP.Net Project With MVC and SQL Server with N-Tier Architecture and RepositoryP
 
 # Customer Views
 -  Login View 
-![Screenshot (678)](https://user-images.githubusercontent.com/75587814/232145244-4fb49d2e-4cdb-4d73-9f4e-6995e66fa76d.png)
+- Register View 
+- Home View (Products)
+- Product Details 
+- Shopping Cart 
+- Apply Order 
+- Payment 
+
+# Admin Panel 
+- Add Product 
+- Edit Product
+- Delete Product 
+- Add Category 
+- Edit Category
+- Delete Category
+- Add CoverType 
+- Edit CoverType 
+- Delete CoverType 
+- Manage Orders 
+
+
+ ![Screenshot (678)](https://user-images.githubusercontent.com/75587814/232145244-4fb49d2e-4cdb-4d73-9f4e-6995e66fa76d.png)
 ![Screenshot (679)](https://user-images.githubusercontent.com/75587814/232145253-7a905b21-b6b0-43dc-85e3-5ba08dccc341.png)
 ![Screenshot (680)](https://user-images.githubusercontent.com/75587814/232145266-a9c5743f-f4ed-4ac4-a9da-48dc3668ce57.png)
 ![Screenshot (681)](https://user-images.githubusercontent.com/75587814/232145271-6ab10475-66bb-4717-8628-7b27d184da68.png)
@@ -34,26 +54,4 @@ ASP.Net Project With MVC and SQL Server with N-Tier Architecture and RepositoryP
 ![Screenshot (705)](https://user-images.githubusercontent.com/75587814/232145384-c4d63ffa-4dcb-455f-9569-a95839714197.png)
 ![Screenshot (706)](https://user-images.githubusercontent.com/75587814/232145391-0091e988-457f-42ef-9920-b363f9c5f6f3.png)
 ![Screenshot (707)](https://user-images.githubusercontent.com/75587814/232145393-7ecf90d9-a620-49ee-bcb9-ff5b5ee37875.png)
-
-- Register View 
-- Home View (Products)
-- Product Details 
-- Shopping Cart 
-- Apply Order 
-- Payment 
-
-# Admin Panel 
-- Add Product 
-- Edit Product
-- Delete Product 
-- Add Category 
-- Edit Category
-- Delete Category
-- Add CoverType 
-- Edit CoverType 
-- Delete CoverType 
-- Manage Orders 
-
-
- 
 
