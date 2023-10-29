@@ -1,5 +1,3 @@
-# BookShop
-
 # E-Commerce BookStore ASP-MVC
 
 This repository contains an ASP.Net project with MVC and SQL Server, built using N-Tier Architecture and Repository Pattern. It is a BookStore application that allows customers to view and purchase books, and provides an admin panel for managing products, categories, cover types, and orders.
