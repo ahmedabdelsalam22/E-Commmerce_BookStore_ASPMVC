@@ -1,27 +1,57 @@
 # BookShop
 
-ASP.Net Project With MVC and SQL Server with N-Tier Architecture and RepositoryPattern
+# E-Commerce BookStore ASP-MVC
 
-# Customer Views
--  Login View 
-- Register View 
-- Home View (Products)
-- Product Details 
-- Shopping Cart 
-- Apply Order 
-- Payment 
+This repository contains an ASP.Net project with MVC and SQL Server, built using N-Tier Architecture and Repository Pattern. It is a BookStore application that allows customers to view and purchase books, and provides an admin panel for managing products, categories, cover types, and orders.
 
-# Admin Panel 
-- Add Product 
-- Edit Product
-- Delete Product 
-- Add Category 
-- Edit Category
-- Delete Category
-- Add CoverType 
-- Edit CoverType 
-- Delete CoverType 
-- Manage Orders 
+## Features
+
+### Customer Views
+
+- Login View: Allows customers to log in to their accounts.
+- Register View: Allows new customers to create an account.
+- Home View (Products): Displays a list of available books for customers to browse and search.
+- Product Details: Provides detailed information about a selected book.
+- Shopping Cart: Allows customers to add books to their shopping cart, update quantities, and remove items.
+- Apply Order: Enables customers to place an order for the books in their shopping cart.
+- Payment: Handles the payment process for customers.
+
+### Admin Panel
+
+- Add Product: Allows the admin to add new books to the store.
+- Edit Product: Enables the admin to modify the details of existing books.
+- Delete Product: Allows the admin to remove books from the store.
+- Add Category: Allows the admin to add new categories for books.
+- Edit Category: Enables the admin to modify the details of existing categories.
+- Delete Category: Allows the admin to remove categories.
+- Add CoverType: Allows the admin to add new cover types for books.
+- Edit CoverType: Enables the admin to modify the details of existing cover types.
+- Delete CoverType: Allows the admin to remove cover types.
+- Manage Orders: Provides the admin with a view of all orders and their status.
+
+## Usage
+
+To use this project, follow these steps:
+
+1. Clone the repository using `git clone https://github.com/ahmedabdelsalam22/E-Commmerce_BookStore_ASP-MVC.git`.
+2. Open the project in Visual Studio.
+3. Set up the SQL Server database by running the SQL scripts provided in the repository.
+4. Update the connection string in the `Web.config` file to match your SQL Server settings.
+5. Build and run the project.
+
+## Technologies Used
+
+- ASP.Net MVC
+- SQL Server
+- C#
+- HTML
+- CSS
+- JavaScript
+
+## Contributing
+
+Contributions to this project are welcome. If you encounter any issues or have suggestions for improvements, please create a new issue or submit a pull request.
+
 
 
  ![Screenshot (678)](https://user-images.githubusercontent.com/75587814/232145244-4fb49d2e-4cdb-4d73-9f4e-6995e66fa76d.png)
